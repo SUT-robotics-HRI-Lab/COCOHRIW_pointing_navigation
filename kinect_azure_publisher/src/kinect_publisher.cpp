@@ -94,6 +94,9 @@ int main(int argc, char **argv) {
 
     ros::Rate loop_rate(5); // 1 Hz
     while (ros::ok()) {
+
+
+
         ////kinect azure stuff
         k4a_capture_t sensorCapture = nullptr;
         k4a_wait_result_t getCaptureResult = k4a_device_get_capture(device, &sensorCapture, 0); // timeout_in_ms is set to 0

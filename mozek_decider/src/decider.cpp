@@ -89,6 +89,8 @@ void pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& msg, const tf:
 
     ROS_INFO("DEST POINT: [x: %f, y: %f, z: %f] in meters", std::get<1>(destPoint).x, std::get<1>(destPoint).y, std::get<1>(destPoint).z);
 
+
+
     //lava ruka nad hlavou (v suradniciach kinectu, cize y os, ale opacne, lebo ukazuje dolu)
     if(cloud.points[4].y < cloud.points[0].y)
     {
@@ -128,12 +130,16 @@ void pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& msg, const tf:
 		}
 
         angle_distance_msg.distance = driveVec.norm()*1000.0; // Placeholder value for distance mm
+		angle_distance_msg.destX = driveVec.x();
+		angle_distance_msg.destX = driveVec.y();
 
         // Log the message being sent
-        ROS_INFO("Publishing: angle1: %f deg, angle2: %f deg , distance: %f mm",
+        ROS_INFO("Publishing: angle1: %f deg, angle2: %f deg , distance: %f mm, destX %f m, destY %f m",
                  angle_distance_msg.angle1,
                  angle_distance_msg.angle2,
-                 angle_distance_msg.distance);
+                 angle_distance_msg.distance,
+                        angle_distance_msg.destX,
+                         angle_distance_msg.destY );
 
         // Publish the AngleDistance message, uhly su v stupnoch imho
         pub.publish(angle_distance_msg);

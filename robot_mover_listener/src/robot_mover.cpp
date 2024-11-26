@@ -24,6 +24,8 @@ void angleDistanceCallback(const robot_mover_listener::AngleDistance::ConstPtr& 
 }
 
 int main(int argc, char **argv) {
+
+
           //inicializacie seriaku
     ROS_INFO("Received message");
     Roomba iRobot;
@@ -34,6 +36,18 @@ int main(int argc, char **argv) {
 
   // Initialize the ROS node
     ros::init(argc, argv, "robot_mover");
+
+    //param test
+    /*
+    while(1)
+    {
+        ros::param::set("/robot_drive_lock", true);
+        ROS_INFO("ROBOT DRIVE LOCK: LOCKED");
+        sleep(5);
+        ros::param::set("/robot_drive_lock", false);
+        ROS_INFO("ROBOT DRIVE LOCK: OPENED");
+        sleep(5);
+    }*/
 
     // Create a node handle
     ros::NodeHandle nh;
