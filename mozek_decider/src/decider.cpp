@@ -131,7 +131,7 @@ void pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& msg, const tf:
 
         angle_distance_msg.distance = driveVec.norm()*1000.0; // Placeholder value for distance mm
 		angle_distance_msg.destX = driveVec.x();
-		angle_distance_msg.destX = driveVec.y();
+		angle_distance_msg.destY = driveVec.y();
 
         // Log the message being sent
         ROS_INFO("Publishing: angle1: %f deg, angle2: %f deg , distance: %f mm, destX %f m, destY %f m",
