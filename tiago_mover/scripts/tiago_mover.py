@@ -62,6 +62,11 @@ class MoveBaseNode:
         goal_msg.pose.orientation.z = quaternion[2]
         goal_msg.pose.orientation.w = quaternion[3]
 
+        rospy.set_param("/robot_drive_lock", True)
+        rospy.loginfo("ROBOT DRIVE LOCK: LOCKED")
+        rospy.set_param("/robot_drive_lock", False)
+        rospy.loginfo("ROBOT DRIVE LOCK: OPENED")
+
         # Publish the goal
         self.goal_publisher.publish(goal_msg)
         rospy.loginfo(f"Goal sent to x={x}, y={y}, angle={angle_degrees} degrees in frame: {frame_id}")
