@@ -62,7 +62,7 @@ void pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& msg, const tf:
     pcl::fromROSMsg(*msg, cloud);
 
     // Print information about the received PointCloud
-    ROS_INFO("Received PointCloud with %lu points", cloud.points.size());
+    //ROS_INFO("Received PointCloud with %lu points", cloud.points.size());
 
     // Iterate through the points and print their coordinates
  /*   for (const auto& point : cloud.points) {
@@ -72,28 +72,36 @@ void pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& msg, const tf:
     tf::Vector3 tempTfVec;
     tf::Vector3 robFrameVec;
 
+
     //elbow
     pclPointToTfVector3(cloud.points[1], tempTfVec);
     robFrameVec = transformVector(transform, tempTfVec);
     IntersectionLibrary::Vector3 linePoint1(robFrameVec.getX(), robFrameVec.getY(), robFrameVec.getZ());
 
     //wrist
-    ROS_INFO("Wrist right: [x: %f, y: %f, z: %f]", cloud.points[2].x, cloud.points[2].y, cloud.points[2].z);
+    //ROS_INFO("Wrist right: [x: %f, y: %f, z: %f]", cloud.points[2].x, cloud.points[2].y, cloud.points[2].z);
     pclPointToTfVector3(cloud.points[2], tempTfVec);
     robFrameVec = transformVector(transform, tempTfVec);
-    ROS_INFO("Wrist right transformed: [x: %f, y: %f, z: %f]", robFrameVec.getX(), robFrameVec.getY(), robFrameVec.getZ());
+    //ROS_INFO("Wrist right transformed: [x: %f, y: %f, z: %f]", robFrameVec.getX(), robFrameVec.getY(), robFrameVec.getZ());
     IntersectionLibrary::Vector3 linePoint2(robFrameVec.getX(), robFrameVec.getY(), robFrameVec.getZ());
 
     IntersectionLibrary::IntersectionResult destPoint = IntersectionLibrary::intersectLinePlane(
     linePoint1, linePoint2, IntersectionLibrary::Vector3(0.0,0.0,0.0), IntersectionLibrary::Vector3(0.0,0.0,5));
 
+    bool lock_param_value;
+    ros::param::get("/robot_drive_lock", lock_param_value);
+
+    if(!lock_param_value)
+      {
     ROS_INFO("DEST POINT: [x: %f, y: %f, z: %f] in meters", std::get<1>(destPoint).x, std::get<1>(destPoint).y, std::get<1>(destPoint).z);
+    }
 
 
 
     //lava ruka nad hlavou (v suradniciach kinectu, cize y os, ale opacne, lebo ukazuje dolu)
-    if(cloud.points[4].y < cloud.points[0].y)
+    if(cloud.points[4].y < cloud.points[0].y && !lock_param_value)
     {
+        ROS_INFO("ROBOT DRIVE LOCK: OPENED");
         ROS_INFO("Driving....");ROS_INFO("Driving....");ROS_INFO("Driving....");
         mozek_decider::AngleDistance angle_distance_msg;
 
@@ -144,7 +152,9 @@ void pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& msg, const tf:
         // Publish the AngleDistance message, uhly su v stupnoch imho
         pub.publish(angle_distance_msg);
 
-        sleep(8);
+        ros::param::set("/robot_drive_lock", true);
+        //ROS_INFO("ROBOT DRIVE LOCK: LOCKED");
+
 
     }
 }

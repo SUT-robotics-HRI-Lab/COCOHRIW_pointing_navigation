@@ -17,10 +17,13 @@ void angleDistanceCallback(const robot_mover_listener::AngleDistance::ConstPtr& 
     ROS_INFO("Received message - Angle1: %f deg, Distance: %f mm, Angle2: %f deg", msg->angle1, msg->distance, msg->angle2);
     ROS_INFO("Driving!!!");
 
+    ros::param::set("/robot_drive_lock", true);
+    ROS_INFO("ROBOT DRIVE LOCK: LOCKED");
     iRobot.rotateAngle(-msg->angle1);
     iRobot.driveDistance(300,300,msg->distance);
     iRobot.rotateAngle(-msg->angle2);
-
+    ros::param::set("/robot_drive_lock", false);
+    ROS_INFO("ROBOT DRIVE LOCK: OPENED");
 }
 
 int main(int argc, char **argv) {
