@@ -170,8 +170,8 @@ int main(int argc, char** argv) {
 
     // Input a 4x4 transformation matrix
     Eigen::Matrix4d transformation_matrix;
-    double alpha = -30; //uhol kinectu do hora natoceny, znamienko zaporne
-    double tx = 0.10, tz = 0.40;
+    double alpha = 3.0; //uhol kinectu do hora natoceny, znamienko zaporne
+    double tx = 0.28, tz = 1.26;
 
 
     transformation_matrix << 0.0, -sind(alpha),  cosd(alpha),   tx ,   // Row 1
