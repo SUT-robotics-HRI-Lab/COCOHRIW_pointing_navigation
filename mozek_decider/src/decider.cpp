@@ -99,7 +99,8 @@ void pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& msg, const tf:
 
 
     //lava ruka nad hlavou (v suradniciach kinectu, cize y os, ale opacne, lebo ukazuje dolu)
-    if(cloud.points[4].y < cloud.points[0].y && !lock_param_value)
+    // a este nejake bonusove podmienky, aby neboli neplatne info o jointoch
+    if(cloud.points[4].y < cloud.points[0].y && cloud.points[4].x != 0.0 && cloud.points[0].x != 0.0 && !lock_param_value)
     {
         ROS_INFO("ROBOT DRIVE LOCK: OPENED");
         ROS_INFO("Driving....");ROS_INFO("Driving....");ROS_INFO("Driving....");
