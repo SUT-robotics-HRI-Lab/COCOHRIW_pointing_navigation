@@ -62,6 +62,8 @@
   <depend>mozek_decider</depend>
   <depend>message_runtime</depend>
   <depend>tf</depend>
+  <depend>actionlib</depend>
+  <depend>move_base_msgs</depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

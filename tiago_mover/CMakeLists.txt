@@ -13,6 +13,8 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   mozek_decider
   tf
+  actionlib
+  move_base_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -106,7 +108,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 ## Declare catkin package
 catkin_package(
-  CATKIN_DEPENDS rospy geometry_msgs std_msgs message_runtime mozek_decider tf
+  CATKIN_DEPENDS rospy geometry_msgs std_msgs message_runtime mozek_decider tf actionlib
+  move_base_msgs
 )
 
 catkin_install_python(PROGRAMS
